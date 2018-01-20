@@ -5,7 +5,7 @@
 REG_LIST_SIZE = 31
 
 .comm saved_regs,REG_LIST_SIZE*4,4
-.comm outputs,32,4
+.comm outputs,<<INPUTS_SIZE>>,4
 .globl inputs
 .data
 .align	2
@@ -19,7 +19,9 @@ inputs:
 .type   insn_test , @function
 
 insn_test:
-    # Save registers
+    ################################################## 
+    ##  SAVE REGISTERS
+    ################################################## 
     # {{{
     lui x5,%hi(saved_regs)
     addi x5,x5,%lo(saved_regs)
@@ -86,7 +88,9 @@ insn_test:
 
 <<BODY>>
 
-    # Restore registers
+    ################################################## 
+    ##  RESTORE REGISTERS
+    ################################################## 
     # {{{
     lui x5,%hi(saved_regs)
     addi x5,x5,%lo(saved_regs)
