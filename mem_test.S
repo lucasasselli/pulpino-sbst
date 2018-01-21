@@ -180,6 +180,154 @@ mem_loop2d:
     add a0,a0,4
 
     # }}}
+
+    # NOTE: Post-increment load-store are currently non-functional
+
+    # p.lw/p.sw
+    # {{{
+
+    # p.lw/p.sw Write 0
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop3a
+    p.sw x0,0(a0)
+mem_loop3a:
+    add a0,a0,4
+
+    # p.lw/p.sw Read 0 Write 1
+    li a2,-1
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop3b
+    p.lw a1,0(a0)
+    bne a1,x0,fail
+    p.sw a2,0(a0)
+mem_loop3b:
+    add a0,a0,4
+
+    # p.lw/p.sw Read 1 Write 0
+    li a2,-1
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop3c
+    p.lw a1,0(a0)
+    bne a1,a2,fail
+    p.sw x0,0(a0)
+mem_loop3c:
+    add a0,a0,4
+
+    # p.lw/p.sw Read 0
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop3d
+    p.lw a1,0(a0)
+    bne a1,x0,fail
+mem_loop3d:
+    add a0,a0,4
+
+    # }}}
+
+    # p.lh/p.sh
+    # {{{
+
+    # p.lh/p.sh Write 0
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop4a
+    p.sh x0,0(a0)
+mem_loop4a:
+    add a0,a0,4
+
+    # p.lh/p.sh Read 0 Write 1
+    li a2,-1
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop4b
+    p.lh a1,0(a0)
+    bne a1,x0,fail
+    p.lhu a1,0(a0)
+    bne a1,x0,fail
+    p.sh a2,0(a0)
+mem_loop4b:
+    add a0,a0,4
+
+    # p.lh/p.sh Read 1 Write 0
+    li a2,-1
+    li a3,0xffff
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop4c
+    p.lh a1,0(a0)
+    bne a1,a2,fail
+    p.lhu a1,0(a0)
+    bne a1,a3,fail
+    p.sh x0,0(a0)
+mem_loop4c:
+    add a0,a0,4
+
+    # p.lh/p.sh Read 0
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop4d
+    p.lh a1,0(a0)
+    bne a1,x0,fail
+    p.lhu a1,0(a0)
+    bne a1,x0,fail
+mem_loop4d:
+    add a0,a0,4
+
+    # }}}
+
+    # p.lb/p.sb
+    # {{{
+
+    # p.lb/p.sb Write 0
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop5a
+    p.sb x0,0(a0)
+mem_loop5a:
+    add a0,a0,4
+
+    # p.lb/p.sb Read 0 Write 1
+    li a2,-1
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop5b
+    p.lb a1,0(a0)
+    bne a1,x0,fail
+    p.lbu a1,0(a0)
+    bne a1,x0,fail
+    p.sb a2,0(a0)
+mem_loop5b:
+    add a0,a0,4
+
+    # p.lb/p.sb Read 1 Write 0
+    li a2,-1
+    li a3,0xff
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop5c
+    p.lb a1,0(a0)
+    bne a1,a2,fail
+    p.lbu a1,0(a0)
+    bne a1,a3,fail
+    p.sb x0,0(a0)
+mem_loop5c:
+    add a0,a0,4
+
+    # p.lb/p.sb Read 0
+    lui a0,%hi(mem_play)
+    addi a0,a0,%lo(mem_play)
+    lp.setupi x0,MEM_ITER,mem_loop5d
+    p.lb a1,0(a0)
+    bne a1,x0,fail
+    p.lbu a1,0(a0)
+    bne a1,x0,fail
+mem_loop5d:
+    add a0,a0,4
+
+    # }}}
     # }}}
 
     # Finish

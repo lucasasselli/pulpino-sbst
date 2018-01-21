@@ -1,5 +1,8 @@
 # vim:ft=riscv32asm
 
+CNT_ITER = 32
+CSR_LIST_SIZE = 21
+.comm saved_csrs,CSR_LIST_SIZE*4,4
 .globl  fail
 .globl  csr_march_c
 .type   csr_march_c , @function
@@ -132,5 +135,73 @@ csr_march_c:
     csrr a0,0x78b
     bne x0,a0,fail
 
+    # Sparse read
+    lui a0,%hi(saved_csrs)
+    addi a0,a0,%lo(saved_csrs)
+    csrr a1,0x300
+    sw a1,0(a0)
+    csrr a1,0x305
+    sw a1,4(a0)
+    csrr a1,0x341
+    sw a1,8(a0)
+    csrr a1,0x342
+    sw a1,12(a0)
+    csrr a1,0x7A0
+    sw a1,0(a0)
+    csrr a1,0x7A1
+    sw a1,4(a0)
+    csrr a1,0xC10
+    sw a1,8(a0)
+    csrr a1,0x014
+    sw a1,12(a0)
+    csrr a1,0xF14
+    sw a1,12(a0)
+
+    # Test performance counter
+    li a0,-1
+    csrw 0x7A0,a0
+    csrw 0x7A1,a0
+    li a2,0
+    li a3,CNT_ITER
+cnt_loop:
+    lui a0,%hi(saved_csrs)
+    addi a0,a0,%lo(saved_csrs)
+    csrr a1,0x780
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x781
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x782
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x783
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x784
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x785
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x786
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x787
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x788
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x789
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x78a
+    sw a1,0(a0)
+    addi a0,a0,4
+    csrr a1,0x78b
+    sw a1,0(a0)
+    addi a2,a2,1
+    bne a3,a2,cnt_loop
     
     jr ra
