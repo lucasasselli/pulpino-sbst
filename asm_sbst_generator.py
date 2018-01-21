@@ -128,7 +128,7 @@ sbst.add_instr("p.machhuRN", TYPE_RRS)
 sbst.block_end()
 
 sbst.block_begin("Vectorial Extension", "RVCY_VEC1")
-sbst.set_iterations(16)
+sbst.set_iterations(32)
 sbst.add_instr("pv.add.h", TYPE_RR)
 sbst.add_instr("pv.add.sc.h", TYPE_RR)
 sbst.add_instr("pv.add.sci.h", TYPE_R6)
